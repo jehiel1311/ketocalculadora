@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Calculadora de Macros Keto</title>
+</head>
+<body>
+    <h1>Calculadora dieta Keto</h1>
+    <form id="keto-form">
+        <label for="age">Edad:</label>
+        <input type="number" id="age" required><br>
+
+        <label for="gender">Sexo:</label>
+        <select id="gender">
+            <option value="male">Masculino</option>
+            <option value="female">Femenino</option>
+        </select><br>
+
+        <label for="height">Estatura (cm):</label>
+        <input type="number" id="height" required><br>
+
+        <label for="weight">Peso (kg):</label>
+        <input type="number" id="weight" required><br>
+
+        <label for="activity-level">Nivel de actividad física:</label>
+        <select id="activity-level">
+            <option value="1.2">Sedentario (sin ejercicio)</option>
+            <option value="1.375">Ligero (1-3 horas de ejercicio por semana)</option>
+            <option value="1.55">Moderado (3-7 horas de ejercicio por semana)</option>
+            <option value="1.725">Elevado (más de 7 horas de ejercicio por semana)</option>
+        </select><br>
+
+        <label for="goal">Objetivo:</label>
+        <select id="goal">
+            <option value="lose">Bajar de peso</option>
+            <option value="maintain">Mantener el peso</option>
+            <option value="gain">Ganar masa muscular</option>
+        </select><br>
+
+        <!-- Otras entradas como objetivo de peso, etc. -->
+
+        <button type="button" onclick="calcularMacros()">Calcular</button>
+    </form>
+
+    <div id="resultados">
+        <!-- Aquí se mostrarán los resultados -->
+    </div>
+
+    <script>
+        function calcularMacros() {
+            const age = parseFloat(document.getElementById('age').value);
+            const gender = document.getElementById('gender').value;
+            const height = parseFloat(document.getElementById('height').value);
+            const weight = parseFloat(document.getElementById('weight').value);
+            const activityLevel = parseFloat(document.getElementById('activity-level').value);
+            const goal = document.getElementById('goal').value;
+
+            // Realizar cálculos según tus necesidades
+            const tmb = 10 * weight + 6.25 * height - 5 * age + 5;
+            const caloriesMin = tmb * activityLevel;
+            const caloriesMax = caloriesMin * 1.2; // Ajusta según tus preferencias
+            const protein = 1.8 * weight;
+            const fatMin = (caloriesMin * 0.7) / 9;
+            const fatMax = (caloriesMax * 0.75) / 9;
+
+            // Determinar la descripción del nivel de actividad
+            let activityDescription = "";
+            switch (activityLevel) {
+                case 1.2:
+                    activityDescription = "Sedentario (sin ejercicio)";
+                    break;
+                case 1.375:
+                    activityDescription = "Ligero (1-3 horas de ejercicio por semana)";
+                    break;
+                case 1.55:
+                    activityDescription = "Moderado (3-7 horas de ejercicio por semana)";
+                    break;
+                case 1.725:
+                    activityDescription = "Elevado (más de 7 horas de ejercicio por semana)";
+                    break;
+                default:
+                    activityDescription = "Nivel de actividad no especificado";
+                    break;
+            }
+
+            // Mostrar los resultados en la sección de resultados
+            const resultadosDiv = document.getElementById('resultados');
+            resultadosDiv.innerHTML = `
+                <h2>Resultados:</h2>
+                <p><strong>Calorías diarias:</strong> ${caloriesMin.toFixed(2)} - ${caloriesMax.toFixed(2)} kcal</p>
+                <p><strong>Proteínas:</strong> ${protein.toFixed(2)} g</p>
+                <p><strong>Grasas (rango):</strong> ${fatMin.toFixed(2)} - ${fatMax.toFixed(2)} g</p>
+                <p><strong>Nivel de actividad:</strong> ${activityLevel} - ${activityDescription}</p>
+                <p><strong>Objetivo:</strong> ${goal}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
+
+

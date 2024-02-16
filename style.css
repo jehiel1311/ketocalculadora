@@ -1,0 +1,177 @@
+body {
+    font-family: 'Roboto', sans-serif; /* Fuente moderna y versátil */
+    background-color: #f0f8ff; /* Azul claro relajante */
+    margin: 20px;
+  }
+  
+  h1 {
+    color: #333; /* Gris oscuro, manteniendo legibilidad */
+    text-align: center;
+  }
+  
+  #selected-items {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  #selected-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  #selected-list li {
+    margin-bottom: 10px;
+  }
+  
+  #totals, #goal-message {
+    background-color: #eef8fc; /* Azul claro más sutil */
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  
+  #goal-message {
+    color: #28a745; /* Verde vibrante que motiva */
+    font-weight: bold;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  input {
+    padding: 8px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  button {
+    background-color: #28a745; /* Verde principal */
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #218838; /* Verde más oscuro al pasar el ratón */
+  }
+  
+  #product-table {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  #product-table th, #product-table td {
+    padding: 10px;
+    border: 1px solid #e1e7ed; /* Gris claro para mejor contraste */
+  }
+  
+  #product-table th {
+    background-color: #f0f8ff; /* Azul claro para encabezados */
+    color: #333;
+  }
+  
+  #product-table tbody tr:nth-child(even) {
+    background-color: #f5f9fd; /* Azul muy claro para filas alternas */
+  }
+  
+  #search {
+    padding: 8px; /* Ajustado para que coincida con otros estilos de input */
+    margin-bottom: 10px;
+    width: 50%;
+    box-sizing: border-box;
+  }
+  
+  #selected-list button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  #selected-list button:hover {
+    background-color: #c82333;
+  }
+  
+  #reset-button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #e0e4e8; /* Gris claro para diferenciarse */
+    color: #333;
+    border: none;
+    cursor: pointer;
+  }
+  
+  #reset-button:hover {
+    background-color: #d7dadc; /* Gris más claro al pasar el ratón */
+  }
+  
+
+
+  /* Estilos para la sección de la calculadora */
+#keto-form {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  #resultados {
+    background-color: #eef8fc;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  
+  #resultados h2 {
+    color: #333;
+  }
+  
+  #resultados p {
+    margin-bottom: 10px;
+    color: #555;
+  }
+  
+  #keto-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  
+  #keto-form input {
+    padding: 8px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  #keto-form select {
+    padding: 8px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  #keto-form button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  #keto-form button:hover {
+    background-color: #218838;
+  }
