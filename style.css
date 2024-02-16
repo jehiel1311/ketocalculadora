@@ -1,0 +1,129 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4; /* Cambiado a un tono más claro */
+    margin: 20px;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+#selected-items {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+#selected-list {
+    list-style: none;
+    padding: 0;
+}
+
+#selected-list li {
+    margin-bottom: 10px;
+}
+
+#totals, #goal-message {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+#goal-message {
+    color: #ff6600;
+    font-weight: bold;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input {
+    padding: 8px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#product-table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#product-table th, #product-table td {
+    padding: 10px;
+    border: 1px solid #dee2e6;
+}
+
+#product-table th {
+    background-color: #007bff;
+    color: #fff;
+}
+
+#product-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#search {
+    padding: 8px; /* Ajustado para que coincida con otros estilos de input */
+    margin-bottom: 10px;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+#selected-list button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+#selected-list button:hover {
+    background-color: #c82333;
+}
+
+#reset-button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+#reset-button:hover {
+    background-color: #218838;
+}
+
+#reset-button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #28a745; /* Verde */
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+#reset-button:hover {
+    background-color: #218838; /* Verde más oscuro al pasar el ratón */
+}
