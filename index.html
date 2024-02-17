@@ -821,136 +821,182 @@
     
         <!-- Resto del contenido HTML -->
        <!-- Resto del contenido HTML -->
-<script>
-    function calculateFatPercentage(fats, calories) {
-        return ((fats * 9) / calories) * 100; // Se asume que las grasas contribuyen con 9 calorías por gramo
-    }
-
-    function updateTotals(quantity, proteins, calories, carbs, fats, goalProteins, goalCalories, goalCarbs) {
-    const totalsElement = document.getElementById('totals');
-    const goalMessageElement = document.getElementById('goal-message');
-
-    const currentTotals = totalsElement.textContent.split(', ');
-    const currentQuantity = parseFloat(currentTotals[0].split(' ')[1]);
-    const currentProteins = parseFloat(currentTotals[1].split(' ')[0]);
-    const currentCalories = parseFloat(currentTotals[2].split(' ')[0]);
-    const currentCarbs = parseFloat(currentTotals[3].split(' ')[0]);
-    const currentFats = parseFloat(currentTotals[4].split(' ')[0]);
-
-    const newQuantity = currentQuantity + quantity;
-    const newProteins = currentProteins + proteins;
-    const newCalories = currentCalories + calories;
-    const newCarbs = currentCarbs + carbs;
-    const newFats = currentFats + fats;
-
-    totalsElement.textContent = `Totales: ${newQuantity.toFixed(2)}g/ml de Cantidad, ${newProteins.toFixed(2)}g de Proteínas, ${newCalories.toFixed(2)} Calorías, ${newCarbs.toFixed(2)}g de Carbohidratos, ${newFats.toFixed(2)}g de Grasas`;
-
-    const remainingProteins = goalProteins - newProteins;
-    const remainingCalories = goalCalories - newCalories;
-    const remainingCarbs = goalCarbs - newCarbs;
-
-    const fatPercentage = calculateFatPercentage(newFats, newCalories);
-    const nonFatPercentage = 100 - fatPercentage;
-
-    goalMessageElement.textContent = `Objetivos restantes - Proteínas: ${remainingProteins.toFixed(2)}g, Calorías: ${remainingCalories.toFixed(2)}, Carbohidratos: ${remainingCarbs.toFixed(2)}g, Porcentaje de calorías de grasas: ${fatPercentage.toFixed(2)}%, Porcentaje de calorías del resto: ${nonFatPercentage.toFixed(2)}%`;
-}
-
-
-    function addToSelected(button) {
-        const row = button.parentNode.parentNode;
-        const name = row.cells[0].textContent;
-        const quantity = parseFloat(row.dataset.quantity);
-        const proteins = parseFloat(row.dataset.proteins);
-        const calories = parseFloat(row.dataset.calories);
-        const carbs = parseFloat(row.dataset.carbs);
-        const fats = parseFloat(row.dataset.fats);
-
-        const selectedList = document.getElementById('selected-list');
-        const existingItem = Array.from(selectedList.children).find(item => item.dataset.name === name);
-
-        if (existingItem) {
-            // Si el producto ya está en la lista, incrementamos la cantidad
-            const currentQuantity = parseFloat(existingItem.dataset.quantity);
-            existingItem.dataset.quantity = currentQuantity + quantity;
-            existingItem.innerHTML = `${name} - ${existingItem.dataset.quantity}g/ml <button onclick="removeFromSelected(this, ${existingItem.dataset.quantity}, ${proteins}, ${calories}, ${carbs}, ${fats})">X</button>`;
-        } else {
-            // Si el producto no está en la lista, lo agregamos como un nuevo elemento
-            const newItem = document.createElement('li');
-            newItem.dataset.name = name;
-            newItem.dataset.quantity = quantity;
-            newItem.dataset.proteins = proteins;
-            newItem.dataset.calories = calories;
-            newItem.dataset.carbs = carbs;
-            newItem.dataset.fats = fats;
-            newItem.innerHTML = `${name} - ${quantity}g/ml <button onclick="removeFromSelected(this, ${quantity}, ${proteins}, ${calories}, ${carbs}, ${fats})">X</button>`;
-            selectedList.appendChild(newItem);
+       <script>
+        function calculateFatPercentage(fats, calories) {
+            return ((fats * 9) / calories) * 100; // Se asume que las grasas contribuyen con 9 calorías por gramo
         }
-
-        updateTotals(quantity, proteins, calories, carbs, fats);
-    }
-
-    function removeFromSelected(button, quantity, proteins, calories, carbs, fats) {
-        const listItem = button.parentNode;
-        const selectedList = document.getElementById('selected-list');
-
-        listItem.remove();
-        updateTotals(-quantity, -proteins, -calories, -carbs, -fats);
-    }
-
-    function resetSum() {
-        const totalsElement = document.getElementById('totals');
-        totalsElement.textContent = "Totales: 0g/ml de Cantidad, 0g de Proteínas, 0 Calorías, 0g de Carbohidratos, 0g de Grasas";
-
-        const selectedList = document.getElementById('selected-list');
-        selectedList.innerHTML = "";
-    }
-
-    function searchProduct() {
-        const input = document.getElementById('search').value.toLowerCase();
-        const rows = document.querySelectorAll('#product-table tbody tr');
-
-        rows.forEach(row => {
-            const name = row.cells[0].textContent.toLowerCase();
-            if (name.includes(input)) {
-                row.style.display = '';
+    
+        function updateTotals(quantity, proteins, calories, carbs, fats, goalProteins, goalCalories, goalCarbs) {
+            const totalsElement = document.getElementById('totals');
+            const goalMessageElement = document.getElementById('goal-message');
+    
+            const currentTotals = totalsElement.textContent.split(', ');
+            const currentQuantity = parseFloat(currentTotals[0].split(' ')[1]);
+            const currentProteins = parseFloat(currentTotals[1].split(' ')[0]);
+            const currentCalories = parseFloat(currentTotals[2].split(' ')[0]);
+            const currentCarbs = parseFloat(currentTotals[3].split(' ')[0]);
+            const currentFats = parseFloat(currentTotals[4].split(' ')[0]);
+    
+            const newQuantity = currentQuantity + quantity;
+            const newProteins = currentProteins + proteins;
+            const newCalories = currentCalories + calories;
+            const newCarbs = currentCarbs + carbs;
+            const newFats = currentFats + fats;
+    
+            totalsElement.textContent = `Totales: ${newQuantity.toFixed(2)}g/ml de Cantidad, ${newProteins.toFixed(2)}g de Proteínas, ${newCalories.toFixed(2)} Calorías, ${newCarbs.toFixed(2)}g de Carbohidratos, ${newFats.toFixed(2)}g de Grasas`;
+    
+            const remainingProteins = goalProteins - newProteins;
+            const remainingCalories = goalCalories - newCalories;
+            const remainingCarbs = goalCarbs - newCarbs;
+    
+            const fatPercentage = calculateFatPercentage(newFats, newCalories);
+            const nonFatPercentage = 100 - fatPercentage;
+    
+            goalMessageElement.textContent = `Objetivos restantes - Proteínas: ${remainingProteins.toFixed(2)}g, Calorías: ${remainingCalories.toFixed(2)}, Carbohidratos: ${remainingCarbs.toFixed(2)}g, Porcentaje de calorías de grasas: ${fatPercentage.toFixed(2)}%, Porcentaje de calorías del resto: ${nonFatPercentage.toFixed(2)}%`;
+        }
+    
+        function addToSelected(button) {
+            const row = button.parentNode.parentNode;
+            const name = row.cells[0].textContent;
+            const quantity = parseFloat(row.dataset.quantity);
+            const proteins = parseFloat(row.dataset.proteins);
+            const calories = parseFloat(row.dataset.calories);
+            const carbs = parseFloat(row.dataset.carbs);
+            const fats = parseFloat(row.dataset.fats);
+    
+            const selectedList = document.getElementById('selected-list');
+            const existingItem = Array.from(selectedList.children).find(item => item.dataset.name === name);
+    
+            if (existingItem) {
+                // Si el producto ya está en la lista, incrementamos la cantidad
+                const currentQuantity = parseFloat(existingItem.dataset.quantity);
+                existingItem.dataset.quantity = currentQuantity + quantity;
+                existingItem.innerHTML = `${name} - ${existingItem.dataset.quantity}g/ml <button onclick="removeFromSelected(this, ${existingItem.dataset.quantity}, ${proteins}, ${calories}, ${carbs}, ${fats})">X</button>`;
             } else {
-                row.style.display = 'none';
+                // Si el producto no está en la lista, lo agregamos como un nuevo elemento
+                const newItem = document.createElement('li');
+                newItem.dataset.name = name;
+                newItem.dataset.quantity = quantity;
+                newItem.dataset.proteins = proteins;
+                newItem.dataset.calories = calories;
+                newItem.dataset.carbs = carbs;
+                newItem.dataset.fats = fats;
+                newItem.innerHTML = `${name} - ${quantity}g/ml <button onclick="removeFromSelected(this, ${quantity}, ${proteins}, ${calories}, ${carbs}, ${fats})">X</button>`;
+                selectedList.appendChild(newItem);
             }
-        });
-
-        // Actualizamos la visibilidad de las filas en la tabla
-        const visibleRows = document.querySelectorAll('#product-table tbody tr[style=""]');
-        if (visibleRows.length === 0) {
-            // Si no hay filas visibles, mostramos un mensaje o realizamos la acción que desees.
-            // Por ejemplo, mostrar un mensaje en la consola:
-            console.log("No se encontraron productos con el nombre ingresado.");
+    
+            updateTotals(quantity, proteins, calories, carbs, fats);
         }
-    }
-
-    function setGoals() {
-        const goalProteinsInput = document.getElementById('goal-proteins');
-        const goalCaloriesInput = document.getElementById('goal-calories');
-        const goalCarbsInput = document.getElementById('goal-carbs');
-
-        const goalProteins = parseFloat(goalProteinsInput.value) || 0;
-        const goalCalories = parseFloat(goalCaloriesInput.value) || 0;
-        const goalCarbs = parseFloat(goalCarbsInput.value) || 0;
-
-        const totalsElement = document.getElementById('totals');
-        const currentTotals = totalsElement.textContent.split(', ');
-
-        const currentProteins = parseFloat(currentTotals[1].split(' ')[0]);
-        const currentCalories = parseFloat(currentTotals[2].split(' ')[0]);
-        const currentCarbs = parseFloat(currentTotals[3].split(' ')[0]);
-
-        const remainingProteins = goalProteins - currentProteins;
-        const remainingCalories = goalCalories - currentCalories;
-        const remainingCarbs = goalCarbs - currentCarbs;
-
-        updateTotals(0, 0, 0, 0, 0, goalProteins, goalCalories, goalCarbs);
-    }
-</script>
-
+    
+        function removeFromSelected(button, quantity, proteins, calories, carbs, fats) {
+            const listItem = button.parentNode;
+            const selectedList = document.getElementById('selected-list');
+    
+            listItem.remove();
+            updateTotals(-quantity, -proteins, -calories, -carbs, -fats);
+        }
+    
+        function resetSum() {
+            const totalsElement = document.getElementById('totals');
+            totalsElement.textContent = "Totales: 0g/ml de Cantidad, 0g de Proteínas, 0 Calorías, 0g de Carbohidratos, 0g de Grasas";
+    
+            const selectedList = document.getElementById('selected-list');
+            selectedList.innerHTML = "";
+        }
+    
+        function searchProduct() {
+            const input = document.getElementById('search').value.toLowerCase();
+            const rows = document.querySelectorAll('#product-table tbody tr');
+    
+            rows.forEach(row => {
+                const name = row.cells[0].textContent.toLowerCase();
+                if (name.includes(input)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+    
+            // Actualizamos la visibilidad de las filas en la tabla
+            const visibleRows = document.querySelectorAll('#product-table tbody tr[style=""]');
+            if (visibleRows.length === 0) {
+                // Si no hay filas visibles, mostramos un mensaje o realizamos la acción que desees.
+                // Por ejemplo, mostrar un mensaje en la consola:
+                console.log("No se encontraron productos con el nombre ingresado.");
+            }
+        }
+    
+        function setGoals() {
+            const goalProteinsInput = document.getElementById('goal-proteins');
+            const goalCaloriesInput = document.getElementById('goal-calories');
+            const goalCarbsInput = document.getElementById('goal-carbs');
+    
+            const goalProteins = parseFloat(goalProteinsInput.value) || 0;
+            const goalCalories = parseFloat(goalCaloriesInput.value) || 0;
+            const goalCarbs = parseFloat(goalCarbsInput.value) || 0;
+    
+            const totalsElement = document.getElementById('totals');
+            const currentTotals = totalsElement.textContent.split(', ');
+    
+            const currentProteins = parseFloat(currentTotals[1].split(' ')[0]);
+            const currentCalories = parseFloat(currentTotals[2].split(' ')[0]);
+            const currentCarbs = parseFloat(currentTotals[3].split(' ')[0]);
+    
+            const remainingProteins = goalProteins - currentProteins;
+            const remainingCalories = goalCalories - currentCalories;
+            const remainingCarbs = goalCarbs - currentCarbs;
+    
+            updateTotals(0, 0, 0, 0, 0, goalProteins, goalCalories, goalCarbs);
+        };
+    
+        // Función para leer el valor de una cookie
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+    
+        // Leer cookies y actualizar objetivos en index.html
+        document.addEventListener('DOMContentLoaded', function () {
+            const goalProteinsInput = document.getElementById('goal-proteins');
+            const goalCaloriesInput = document.getElementById('goal-calories');
+            const goalCarbsInput = document.getElementById('goal-carbs');
+    
+            // Leer cookies y actualizar objetivos en index.html
+            const caloriesMax = parseFloat(getCookie('caloriesMax')) || 0;
+            const protein = parseFloat(getCookie('protein')) || 0;
+            const carbsMax = parseFloat(getCookie('carbsMax')) || 0;
+    
+            // Actualizar objetivos en index.html
+            goalProteinsInput.value = protein;
+            goalCaloriesInput.value = caloriesMax;
+            goalCarbsInput.value = carbsMax;
+    
+            // Mostrar resultados en la sección correspondiente de index.html (ajustar según tu estructura)
+            // ...
+        });
+    
+        // Recuperar valores de localStorage al cargar la página
+        document.addEventListener('DOMContentLoaded', function () {
+            const goalProteinsInput = document.getElementById('goal-proteins');
+            const goalCaloriesInput = document.getElementById('goal-calories');
+            const goalCarbsInput = document.getElementById('goal-carbs');
+    
+            // Leer localStorage y actualizar objetivos en index.html
+            const caloriesMax = parseFloat(localStorage.getItem('caloriesMax')) || 0;
+            const protein = parseFloat(localStorage.getItem('protein')) || 0;
+            const carbsMax = parseFloat(localStorage.getItem('carbsMax')) || 0;
+    
+            // Actualizar objetivos en index.html
+            goalProteinsInput.value = protein;
+            goalCaloriesInput.value = caloriesMax;
+            goalCarbsInput.value = carbsMax;
+    
+            // Mostrar resultados en la sección correspondiente de index.html (ajustar según tu estructura)
+            // ...
+        });
+    </script>
+    
         
         
         
