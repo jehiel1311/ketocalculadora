@@ -47,9 +47,13 @@
     <div id="resultados">
         <!-- Aquí se mostrarán los resultados -->
     </div>
+<!-- Botón para calcular los resultados -->
+<!-- <button type="button" onclick="calcularMacros()">Calcular</button> -->
 
-    <script>
-        function calcularMacros() {
+<script>
+    function calcularMacros() {
+        try {
+            console.log("Calculando Macros...");
             const age = parseFloat(document.getElementById('age').value);
             const gender = document.getElementById('gender').value;
             const height = parseFloat(document.getElementById('height').value);
@@ -64,6 +68,10 @@
             const protein = 1.8 * weight;
             const fatMin = (caloriesMin * 0.7) / 9;
             const fatMax = (caloriesMax * 0.75) / 9;
+
+            // Rango sugerido para carbohidratos (ajustable según tus preferencias)
+            const carbsMin = 20;  // Mínimo recomendado
+            const carbsMax = 50;  // Máximo recomendado
 
             // Determinar la descripción del nivel de actividad
             let activityDescription = "";
@@ -92,12 +100,45 @@
                 <p><strong>Calorías diarias:</strong> ${caloriesMin.toFixed(2)} - ${caloriesMax.toFixed(2)} kcal</p>
                 <p><strong>Proteínas:</strong> ${protein.toFixed(2)} g</p>
                 <p><strong>Grasas (rango):</strong> ${fatMin.toFixed(2)} - ${fatMax.toFixed(2)} g</p>
+                <p><strong>Carbohidratos (rango):</strong> ${carbsMin} - ${carbsMax} g</p>
                 <p><strong>Nivel de actividad:</strong> ${activityLevel} - ${activityDescription}</p>
                 <p><strong>Objetivo:</strong> ${goal}</p>
             `;
+
+            // Almacenar resultados en cookies
+            document.cookie = `caloriesMin=${caloriesMin}`;
+            document.cookie = `caloriesMax=${caloriesMax}`;
+            document.cookie = `protein=${protein}`;
+            document.cookie = `fatMin=${fatMin}`;
+            document.cookie = `fatMax=${fatMax}`;
+            document.cookie = `carbsMin=${carbsMin}`;
+            document.cookie = `carbsMax=${carbsMax}`;
+            document.cookie = `activityLevel=${activityLevel}`;
+            document.cookie = `goal=${goal}`;
+
+            // Almacenar resultados en localStorage
+            localStorage.setItem('caloriesMin', caloriesMin.toFixed(2));
+            localStorage.setItem('caloriesMax', caloriesMax.toFixed(2));
+            localStorage.setItem('protein', protein.toFixed(2));
+            localStorage.setItem('fatMin', fatMin.toFixed(2));
+            localStorage.setItem('fatMax', fatMax.toFixed(2));
+            localStorage.setItem('carbsMin', carbsMin);
+            localStorage.setItem('carbsMax', carbsMax);
+            localStorage.setItem('activityLevel', activityLevel);
+            localStorage.setItem('goal', goal);
+
+        } catch (error) {
+            console.error("Error al calcular los resultados:", error);
         }
-    </script>
+    }
+
+    // Redirigir a index.html con los objetivos
+    function redirigirAIndex() {
+        window.location.href = "index.html";
+    }
+</script>
+
+<!-- Botón para redirigir a index.html con los objetivos -->
+<button type="button" onclick="redirigirAIndex()">Arma tu Dieta</button>
 </body>
 </html>
-
-
