@@ -29,30 +29,43 @@
         }
     </style>
 </head>
-<body>
+<body id="bodycalculo">
+    
+
+
+    
+    <div class="logo"> 
+        <img src="/recursos/Logo2.png" alt="">
+    </div>
 
     <h1>Calculadora Dieta Keto</h1>
-    <a href="calculo.html">
-        <button type="button">Ir a la Página de Cálculos</button>
-      </a>
-    <div id="selected-items">
-        <h2>Productos Seleccionados</h2>
-        <ul id="selected-list"></ul>
-    </div>
-    <div id="totals">Totales: 0g/ml de Cantidad, 0g de Proteínas, 0 Calorías, 0g de Carbohidratos, 0g de Grasas</div>
-   
-    <div id="goal-message"></div>
+
+    <div class="contenedor-principal">
+            <a href="index.html">
+                <button type="button">Voler a cargar datos</button>
+            </a>
+
+        <div id="selected-items">
+            <h2>Productos Seleccionados</h2>
+            <ul id="selected-list"></ul>
+         </div>
+
+        <div id="totals">Totales: 0g/ml de Cantidad, 0g de Proteínas, 0 Calorías, 0g de Carbohidratos, 0g de Grasas</div>
     
+        <div id="goal-message"></div>
+    
+ 
 <!-- sección de objetivos  -->
 
-<label for="goal-proteins">Objetivo de Proteínas (g):</label>
-<input type="text" id="goal-proteins" class="editable-input" readonly>
-<label for="goal-calories">Objetivo de Calorías:</label>
-<input type="text" id="goal-calories" class="editable-input" readonly>
-<label for="goal-carbs">Objetivo de Carbohidratos (g):</label>
-<input type="text" id="goal-carbs" class="editable-input" readonly>
+        <div class="objetivos">
+            <label for="goal-proteins">Objetivo de Proteínas (g):</label>
+            <input type="text" id="goal-proteins" class="editable-input" readonly>
+            <label for="goal-calories">Objetivo de Calorías:</label>
+            <input type="text" id="goal-calories" class="editable-input" readonly>
+            <label for="goal-carbs">Objetivo de Carbohidratos (g):</label>
+            <input type="text" id="goal-carbs" class="editable-input" readonly>
 
-
+        </div>
 
 <!--    BOTON EDITAR  -->
     <style> 
@@ -798,8 +811,9 @@
         </tbody>
     </table>
 
- 
-    <!DOCTYPE html>
+</div>
+    
+    <!-- <!DOCTYPE html>
     <html lang="es">
     <head>
         <meta charset="UTF-8">
@@ -841,194 +855,161 @@
         </div> -->
     
         <!-- Resto del contenido HTML -->
-       <!-- Resto del contenido HTML -->
+       Resto del contenido HTML -->
        <script>
-    function establecerObjetivos() {
-    const inputs = document.querySelectorAll('.editable-input');
-    inputs.forEach(input => {
-        input.setAttribute('readonly', true);
-        input.style.border = 'none';
-    });
-}
-
-function calculateFatPercentage(fats, calories) {
-    return ((fats * 9) / calories) * 100; // Se asume que las grasas contribuyen con 9 calorías por gramo
-}
-
-function updateTotals(quantity, proteins, calories, carbs, fats) {
-    const totalsElement = document.getElementById('totals');
-    const goalMessageElement = document.getElementById('goal-message');
-
-    const currentTotals = totalsElement.textContent.split(', ');
-    const currentQuantity = parseFloat(currentTotals[0].split(' ')[1]);
-    const currentProteins = parseFloat(currentTotals[1].split(' ')[0]);
-    const currentCalories = parseFloat(currentTotals[2].split(' ')[0]);
-    const currentCarbs = parseFloat(currentTotals[3].split(' ')[0]);
-    const currentFats = parseFloat(currentTotals[4].split(' ')[0]);
-
-    const newQuantity = currentQuantity + quantity;
-    const newProteins = currentProteins + proteins;
-    const newCalories = currentCalories + calories;
-    const newCarbs = currentCarbs + carbs;
-    const newFats = currentFats + fats;
-
-    totalsElement.textContent = `Totales: ${newQuantity.toFixed(2)}g/ml de Cantidad, ${newProteins.toFixed(2)}g de Proteínas, ${newCalories.toFixed(2)} Calorías, ${newCarbs.toFixed(2)}g de Carbohidratos, ${newFats.toFixed(2)}g de Grasas`;
-
-    updateRemainingGoals(quantity, proteins, calories, carbs, fats);
-}
-
-function addToSelected(button) {
-    const row = button.parentNode.parentNode;
-    const name = row.cells[0].textContent;
-    const quantity = parseFloat(row.dataset.quantity);
-    const proteins = parseFloat(row.dataset.proteins);
-    const calories = parseFloat(row.dataset.calories);
-    const carbs = parseFloat(row.dataset.carbs);
-    const fats = parseFloat(row.dataset.fats);
-
-    const selectedList = document.getElementById('selected-list');
-    const existingItem = Array.from(selectedList.children).find(item => item.dataset.name === name);
-
-    if (existingItem) {
-        // Si el producto ya está en la lista, incrementamos la cantidad
-        const currentQuantity = parseFloat(existingItem.dataset.quantity);
-        existingItem.dataset.quantity = currentQuantity + quantity;
-        existingItem.innerHTML = `${name} - ${existingItem.dataset.quantity}g/ml <button onclick="removeFromSelected(this, '${name}', ${existingItem.dataset.quantity}, ${proteins}, ${calories}, ${carbs}, ${fats})">X</button>`;
-    } else {
-        // Si el producto no está en la lista, lo agregamos como un nuevo elemento
-        const newItem = document.createElement('li');
-        newItem.dataset.name = name;
-        newItem.dataset.quantity = quantity;
-        newItem.dataset.proteins = proteins;
-        newItem.dataset.calories = calories;
-        newItem.dataset.carbs = carbs;
-        newItem.dataset.fats = fats;
-        newItem.innerHTML = `${name} - ${quantity}g/ml <button onclick="removeFromSelected(this, '${name}', ${quantity}, ${proteins}, ${calories}, ${carbs}, ${fats})">X</button>`;
-        selectedList.appendChild(newItem);
-    }
-
-    updateTotals(quantity, proteins, calories, carbs, fats);
-}
-
-function removeFromSelected(button, name, quantity, proteins, calories, carbs, fats) {
-    const listItem = button.parentNode;
-    const selectedList = document.getElementById('selected-list');
-
-    listItem.remove();
-    updateTotals(-quantity, -proteins, -calories, -carbs, -fats);
-}
-
-function updateRemainingGoals(quantity, proteins, calories, carbs, fats) {
-    const goalProteinsInput = document.getElementById('goal-proteins');
-    const goalCaloriesInput = document.getElementById('goal-calories');
-    const goalCarbsInput = document.getElementById('goal-carbs');
-
-    const currentProteins = parseFloat(goalProteinsInput.value) || 0;
-    const currentCalories = parseFloat(goalCaloriesInput.value) || 0;
-    const currentCarbs = parseFloat(goalCarbsInput.value) || 0;
-
-    const remainingProteins = Math.max(currentProteins - proteins, 0);
-    const remainingCalories = Math.max(currentCalories - calories, 0);
-    const remainingCarbs = Math.max(currentCarbs - carbs, 0);
-
-    goalProteinsInput.value = remainingProteins.toFixed(2);
-    goalCaloriesInput.value = remainingCalories.toFixed(2);
-    goalCarbsInput.value = remainingCarbs.toFixed(2);
-
-    const fatPercentage = calculateFatPercentage(fats, calories);
-    const nonFatPercentage = 100 - fatPercentage;
-
-    goalMessageElement.textContent = `Objetivos restantes - Proteínas: ${remainingProteins.toFixed(2)}g, Calorías: ${remainingCalories.toFixed(2)}, Carbohidratos: ${remainingCarbs.toFixed(2)}g, Porcentaje de calorías de grasas: ${fatPercentage.toFixed(2)}%, Porcentaje de calorías del resto: ${nonFatPercentage.toFixed(2)}%`;
-}
-
-document.addEventListener('DOMContentLoaded', function () {
-    const goalProteinsInput = document.getElementById('goal-proteins');
-    const goalCaloriesInput = document.getElementById('goal-calories');
-    const goalCarbsInput = document.getElementById('goal-carbs');
-
-    // Leer cookies y actualizar objetivos en index.html
-    const protein = parseFloat(getCookie('protein')) || 0;
-    const caloriesMax = parseFloat(getCookie('caloriesMax')) || 0;
-    const carbsMax = parseFloat(getCookie('carbsMax')) || 0;
-
-    // Tomar el menor valor del rango como objetivo
-    goalProteinsInput.value = protein;
-    goalCaloriesInput.value = caloriesMax;
-    goalCarbsInput.value = carbsMax;
-
-    // Llamada a la función para calcular y mostrar los objetivos iniciales
-    setGoals();
-});
-
-function setGoals() {
-    const goalProteinsInput = document.getElementById('goal-proteins');
-    const goalCaloriesInput = document.getElementById('goal-calories');
-    const goalCarbsInput = document.getElementById('goal-carbs');
-
-    const goalProteins = parseFloat(goalProteinsInput.value) || 0;
-    const goalCalories = parseFloat(goalCaloriesInput.value) || 0;
-    const goalCarbs = parseFloat(goalCarbsInput.value) || 0;
-
-    const goalMessageElement = document.getElementById('goal-message');
-    const currentGoals = goalMessageElement.textContent.match(/- Proteínas: (.*), Calorías: (.*), Carbohidratos: (.*)/);
-
-    const remainingProteins = parseFloat(currentGoals[1]) || 0;
-    const remainingCalories = parseFloat(currentGoals[2]) || 0;
-    const remainingCarbs = parseFloat(currentGoals[3]) || 0;
-
-    const currentTotals = getCurrentTotals();
-    const fatPercentage = calculateFatPercentage(currentTotals.fats, currentTotals.calories);
-    const nonFatPercentage = 100 - fatPercentage;
-
-    goalMessageElement.textContent = `Objetivos restantes - Proteínas: ${remainingProteins.toFixed(2)}g, Calorías: ${remainingCalories.toFixed(2)}, Carbohidratos: ${remainingCarbs.toFixed(2)}g, Porcentaje de calorías de grasas: ${fatPercentage.toFixed(2)}%, Porcentaje de calorías del resto: ${nonFatPercentage.toFixed(2)}%`;
-}
-
-function getCurrentTotals() {
-    const totalsElement = document.getElementById('totals');
-    const currentTotals = totalsElement.textContent.match(/Cantidad, (.*), Proteínas, (.*), Calorías, (.*), Carbohidratos, (.*), Grasas, (.*)/);
-
-    return {
-        quantity: parseFloat(currentTotals[1]) || 0,
-        proteins: parseFloat(currentTotals[2]) || 0,
-        calories: parseFloat(currentTotals[3]) || 0,
-        carbs: parseFloat(currentTotals[4]) || 0,
-        fats: parseFloat(currentTotals[5]) || 0,
-    };
-}
-
-// Resto del código sigue igual
-
-
-
-
-    
-        // Función para leer el valor de una cookie
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
+        function establecerObjetivos() {
+            const inputs = document.querySelectorAll('.editable-input');
+            inputs.forEach(input => {
+                input.setAttribute('readonly', true);
+                input.style.border = 'none';
+            });
         }
     
-        // Leer cookies y actualizar objetivos en index.html
+        function calculateFatPercentage(fats, calories) {
+            return ((fats * 9) / calories) * 100; // Se asume que las grasas contribuyen con 9 calorías por gramo
+        }
+    
+        function updateTotals(quantity, proteins, calories, carbs, fats) {
+            const totalsElement = document.getElementById('totals');
+            const goalMessageElement = document.getElementById('goal-message');
+    
+            const currentTotals = totalsElement.textContent.split(', ');
+            const currentQuantity = parseFloat(currentTotals[0].split(' ')[1]);
+            const currentProteins = parseFloat(currentTotals[1].split(' ')[0]);
+            const currentCalories = parseFloat(currentTotals[2].split(' ')[0]);
+            const currentCarbs = parseFloat(currentTotals[3].split(' ')[0]);
+            const currentFats = parseFloat(currentTotals[4].split(' ')[0]);
+    
+            const newQuantity = currentQuantity + quantity;
+            const newProteins = currentProteins + proteins;
+            const newCalories = currentCalories + calories;
+            const newCarbs = currentCarbs + carbs;
+            const newFats = currentFats + fats;
+    
+            totalsElement.textContent = `Totales: ${newQuantity.toFixed(2)}g/ml de Cantidad, ${newProteins.toFixed(2)}g de Proteínas, ${newCalories.toFixed(2)} Calorías, ${newCarbs.toFixed(2)}g de Carbohidratos, ${newFats.toFixed(2)}g de Grasas`;
+    
+            updateRemainingGoals(quantity, proteins, calories, carbs, fats);
+        }
+    
+        function addToSelected(button) {
+            const row = button.parentNode.parentNode;
+            const name = row.cells[0].textContent;
+            const quantity = parseFloat(row.dataset.quantity);
+            const proteins = parseFloat(row.dataset.proteins);
+            const calories = parseFloat(row.dataset.calories);
+            const carbs = parseFloat(row.dataset.carbs);
+            const fats = parseFloat(row.dataset.fats);
+    
+            const selectedList = document.getElementById('selected-list');
+            const existingItem = Array.from(selectedList.children).find(item => item.dataset.name === name);
+    
+            if (existingItem) {
+                // Si el producto ya está en la lista, incrementamos la cantidad
+                const currentQuantity = parseFloat(existingItem.dataset.quantity);
+                existingItem.dataset.quantity = currentQuantity + quantity;
+                existingItem.innerHTML = `${name} - ${existingItem.dataset.quantity}g/ml <button onclick="removeFromSelected(this, '${name}', ${existingItem.dataset.quantity}, ${proteins}, ${calories}, ${carbs}, ${fats})">X</button>`;
+            } else {
+                // Si el producto no está en la lista, lo agregamos como un nuevo elemento
+                const newItem = document.createElement('li');
+                newItem.dataset.name = name;
+                newItem.dataset.quantity = quantity;
+                newItem.dataset.proteins = proteins;
+                newItem.dataset.calories = calories;
+                newItem.dataset.carbs = carbs;
+                newItem.dataset.fats = fats;
+                newItem.innerHTML = `${name} - ${quantity}g/ml <button onclick="removeFromSelected(this, '${name}', ${quantity}, ${proteins}, ${calories}, ${carbs}, ${fats})">X</button>`;
+                selectedList.appendChild(newItem);
+            }
+    
+            updateTotals(quantity, proteins, calories, carbs, fats);
+        }
+    
+        function removeFromSelected(button, name, quantity, proteins, calories, carbs, fats) {
+            const listItem = button.parentNode;
+            const selectedList = document.getElementById('selected-list');
+    
+            listItem.remove();
+            updateTotals(-quantity, -proteins, -calories, -carbs, -fats);
+        }
+    
+        function updateRemainingGoals(quantity, proteins, calories, carbs, fats) {
+            const goalProteinsInput = document.getElementById('goal-proteins');
+            const goalCaloriesInput = document.getElementById('goal-calories');
+            const goalCarbsInput = document.getElementById('goal-carbs');
+            const goalMessageElement = document.getElementById('goal-message');
+    
+            const currentProteins = parseFloat(goalProteinsInput.value) || 0;
+            const currentCalories = parseFloat(goalCaloriesInput.value) || 0;
+            const currentCarbs = parseFloat(goalCarbsInput.value) || 0;
+    
+            const remainingProteins = Math.max(currentProteins - proteins, 0);
+            const remainingCalories = Math.max(currentCalories - calories, 0);
+            const remainingCarbs = Math.max(currentCarbs - carbs, 0);
+    
+            goalProteinsInput.value = remainingProteins.toFixed(2);
+            goalCaloriesInput.value = remainingCalories.toFixed(2);
+            goalCarbsInput.value = remainingCarbs.toFixed(2);
+    
+            const fatPercentage = calculateFatPercentage(fats, calories);
+            const nonFatPercentage = 100 - fatPercentage;
+    
+            goalMessageElement.textContent = `Objetivos restantes - Proteínas: ${remainingProteins.toFixed(2)}g, Calorías: ${remainingCalories.toFixed(2)}, Carbohidratos: ${remainingCarbs.toFixed(2)}g, Porcentaje de calorías de grasas: ${fatPercentage.toFixed(2)}%, Porcentaje de calorías del resto: ${nonFatPercentage.toFixed(2)}%`;
+        }
+    
         document.addEventListener('DOMContentLoaded', function () {
-    const goalProteinsInput = document.getElementById('goal-proteins');
-    const goalCaloriesInput = document.getElementById('goal-calories');
-    const goalCarbsInput = document.getElementById('goal-carbs');
-
-    // Leer cookies y actualizar objetivos en index.html
-    const protein = parseFloat(getCookie('protein')) || 0;
-    const caloriesMax = parseFloat(getCookie('caloriesMax')) || 0;
-    const carbsMax = parseFloat(getCookie('carbsMax')) || 0;
-
-    // Tomar el menor valor del rango como objetivo
-    goalProteinsInput.value = protein;
-    goalCaloriesInput.value = caloriesMax;
-    goalCarbsInput.value = carbsMax;
-
-    // Llamada a la función para calcular y mostrar los objetivos iniciales
-    setGoals();
-});
-
+            const goalProteinsInput = document.getElementById('goal-proteins');
+            const goalCaloriesInput = document.getElementById('goal-calories');
+            const goalCarbsInput = document.getElementById('goal-carbs');
+    
+            // Leer cookies y actualizar objetivos en index.html
+            const protein = parseFloat(getCookie('protein')) || 0;
+            const caloriesMax = parseFloat(getCookie('caloriesMax')) || 0;
+            const carbsMax = parseFloat(getCookie('carbsMax')) || 0;
+    
+            // Tomar el menor valor del rango como objetivo
+            goalProteinsInput.value = protein;
+            goalCaloriesInput.value = caloriesMax;
+            goalCarbsInput.value = carbsMax;
+    
+            // Llamada a la función para calcular y mostrar los objetivos iniciales
+            setGoals();
+        });
+    
+        function setGoals() {
+            const goalProteinsInput = document.getElementById('goal-proteins');
+            const goalCaloriesInput = document.getElementById('goal-calories');
+            const goalCarbsInput = document.getElementById('goal-carbs');
+            const goalMessageElement = document.getElementById('goal-message');
+    
+            const goalProteins = parseFloat(goalProteinsInput.value) || 0;
+            const goalCalories = parseFloat(goalCaloriesInput.value) || 0;
+            const goalCarbs = parseFloat(goalCarbsInput.value) || 0;
+    
+            const currentGoals = goalMessageElement.textContent.match(/- Proteínas: (.*), Calorías: (.*), Carbohidratos: (.*)/);
+    
+            const remainingProteins = parseFloat(currentGoals[1]) || 0;
+            const remainingCalories = parseFloat(currentGoals[2]) || 0;
+            const remainingCarbs = parseFloat(currentGoals[3]) || 0;
+    
+            const currentTotals = getCurrentTotals();
+            const fatPercentage = calculateFatPercentage(currentTotals.fats, currentTotals.calories);
+            const nonFatPercentage = 100 - fatPercentage;
+    
+            goalMessageElement.textContent = `Objetivos restantes - Proteínas: ${remainingProteins.toFixed(2)}g, Calorías: ${remainingCalories.toFixed(2)}, Carbohidratos: ${remainingCarbs.toFixed(2)}g, Porcentaje de calorías de grasas: ${fatPercentage.toFixed(2)}%, Porcentaje de calorías del resto: ${nonFatPercentage.toFixed(2)}%`;
+        }
+    
+        function getCurrentTotals() {
+            const totalsElement = document.getElementById('totals');
+            const currentTotals = totalsElement.textContent.match(/Cantidad, (.*), Proteínas, (.*), Calorías, (.*), Carbohidratos, (.*), Grasas, (.*)/);
+    
+            return {
+                quantity: parseFloat(currentTotals[1]) || 0,
+                proteins: parseFloat(currentTotals[2]) || 0,
+                calories: parseFloat(currentTotals[3]) || 0,
+                carbs: parseFloat(currentTotals[4]) || 0,
+                fats: parseFloat(currentTotals[5]) || 0,
+            };
+        }
     
         // HABILITA BOTON EDITAR
         function habilitarEdicion() {
@@ -1038,33 +1019,58 @@ function getCurrentTotals() {
                 input.style.border = '1px solid #ccc';
             });
         }
-
-        function updateRemainingGoals(quantity, proteins, calories, carbs, fats) {
-    const goalProteinsInput = document.getElementById('goal-proteins');
-    const goalCaloriesInput = document.getElementById('goal-calories');
-    const goalCarbsInput = document.getElementById('goal-carbs');
-
-    const currentProteins = parseFloat(goalProteinsInput.value) || 0;
-    const currentCalories = parseFloat(goalCaloriesInput.value) || 0;
-    const currentCarbs = parseFloat(goalCarbsInput.value) || 0;
-
-    const remainingProteins = Math.max(currentProteins - proteins, 0);
-    const remainingCalories = Math.max(currentCalories - calories, 0);
-    const remainingCarbs = Math.max(currentCarbs - carbs, 0);
-
-    goalProteinsInput.value = remainingProteins.toFixed(2);
-    goalCaloriesInput.value = remainingCalories.toFixed(2);
-    goalCarbsInput.value = remainingCarbs.toFixed(2);
-
-    // Actualizar la sección de "Objetivos restantes"
-    const goalMessageElement = document.getElementById('goal-message');
-    const fatPercentage = calculateFatPercentage(fats, calories);
-    const nonFatPercentage = 100 - fatPercentage;
-
-    goalMessageElement.textContent = `Objetivos restantes - Proteínas: ${remainingProteins.toFixed(2)}g, Calorías: ${remainingCalories.toFixed(2)}, Carbohidratos: ${remainingCarbs.toFixed(2)}g, Porcentaje de calorías de grasas: ${fatPercentage.toFixed(2)}%, Porcentaje de calorías del resto: ${nonFatPercentage.toFixed(2)}%`;
-}
-
+    
+        function resetCalculator() {
+            const goalProteinsInput = document.getElementById('goal-proteins');
+            const goalCaloriesInput = document.getElementById('goal-calories');
+            const goalCarbsInput = document.getElementById('goal-carbs');
+            const goalMessageElement = document.getElementById('goal-message');
+            const totalsElement = document.getElementById('totals');
+            const selectedList = document.getElementById('selected-list');
+    
+            goalProteinsInput.value = 0;
+            goalCaloriesInput.value = 0;
+            goalCarbsInput.value = 0;
+    
+            const currentTotals = getCurrentTotals();
+            const fatPercentage = calculateFatPercentage(currentTotals.fats, currentTotals.calories);
+            const nonFatPercentage = 100 - fatPercentage;
+    
+            goalMessageElement.textContent = `Objetivos restantes - Proteínas: 0g, Calorías: 0, Carbohidratos: 0g, Porcentaje de calorías de grasas: 0%, Porcentaje de calorías del resto: ${nonFatPercentage.toFixed(2)}%`;
+    
+            totalsElement.textContent = "Totales: 0g/ml de Cantidad, 0g de Proteínas, 0 Calorías, 0g de Carbohidratos, 0g de Grasas";
+    
+            selectedList.innerHTML = "";
+        }
+    
+        function searchProduct() {
+            const input = document.getElementById('search').value.toLowerCase();
+            const rows = document.querySelectorAll('#product-table tbody tr');
+    
+            rows.forEach(row => {
+                const name = row.cells[0].textContent.toLowerCase();
+                if (name.includes(input)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+    
+            const visibleRows = document.querySelectorAll('#product-table tbody tr[style=""]');
+            if (visibleRows.length === 0) {
+                console.log("No se encontraron productos con el nombre ingresado.");
+            }
+        }
+    
+        // Función para leer el valor de una cookie
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
     </script>
+    
+    
     
     
         
