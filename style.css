@@ -1,6 +1,6 @@
 body {
   font-family: 'Roboto', sans-serif;
-  background-image: url(/recursos/fondo\ completo3.jpg);
+  background-image: url(recursos/fondo\ completo3.jpg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -106,7 +106,7 @@ body button:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-image: url(/recursos/fondo\ completo1.jpg);
+  background-image: url(recursos/fondo\ completo1.jpg);
   background-size: cover;
 }
 
