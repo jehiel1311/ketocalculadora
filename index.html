@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Calculadora de Macros Keto</title>
+</head>
+<body>
+    <div class="seccion-formulario" id="formulario">
+         <div class="logo"> 
+        <img src="recursos/logo2.png" alt="">
+    </div>
+        <h1>Calculadora dieta Keto</h1>
+        <form id="keto-form">
+            <label for="age">Edad:</label>
+            <input type="number" id="age" required><br>
+
+            <label for="gender">Sexo:</label>
+            <select id="gender">
+                <option value="male">Masculino</option>
+                <option value="female">Femenino</option>
+            </select><br>
+
+            <label for="height">Estatura (cm):</label>
+            <input type="number" id="height" required><br>
+
+            <label for="weight">Peso (kg):</label>
+            <input type="number" id="weight" required><br>
+
+            <label for="activity-level">Nivel de actividad física:</label>
+            <select id="activity-level">
+                <option value="1.2">Sedentario (sin ejercicio)</option>
+                <option value="1.375">Ligero (1-3 horas de ejercicio por semana)</option>
+                <option value="1.55">Moderado (3-7 horas de ejercicio por semana)</option>
+                <option value="1.725">Elevado (más de 7 horas de ejercicio por semana)</option>
+            </select><br>
+
+            <label for="goal">Objetivo:</label>
+            <select id="goal">
+                <option value="lose">Bajar de peso</option>
+                <option value="maintain">Mantener el peso</option>
+                <option value="gain">Ganar masa muscular</option>
+            </select><br>
+
+            <!-- Otras entradas como objetivo de peso, etc. -->
+
+            <button type="button" onclick="calcularMacros()">Calcular</button>
+        </form>
+    
+        <div id="resultados">
+            <!-- Aquí se mostrarán los resultados -->
+        </div>
+
+        <button type="button" onclick="redirigirAIndex()">Arma tu Dieta</button>
+    </div>
+<!-- Botón para calcular los resultados -->
+<!-- <button type="button" onclick="calcularMacros()">Calcular</button> -->
+
+<script src="script.js"></script>
+</script>
+
+<!-- Botón para redirigir a index.html con los objetivos -->
+
+</body>
+</html>
+
+
