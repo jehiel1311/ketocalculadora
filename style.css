@@ -97,7 +97,7 @@ body button:hover {
 
 
 
-/* PAGINA CALCULO */
+/*------------------PAGINA CALCULO --------------------*/
 
 #bodycalculo {
   display: flex;
@@ -125,14 +125,14 @@ body button:hover {
 
 .barra-datos {
   padding: 15px;
-  position: sticky;
+  /* position: sticky; */
   top: 0;
   z-index: 10;
   background-color: #0e1416;
   box-shadow: #1a2023 5px 5px 5px;
   max-width: 600px;
   padding: 5px;
-  /* Remove display: flex */
+ 
   align-items: center;
 }
 
@@ -165,7 +165,11 @@ body button:hover {
 #totals, #goal-message {
   font-weight: bold;
   font-size: small;
-    
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #eef8fc;
+  border-radius: 5px;
+  
 }
 
 
@@ -193,9 +197,6 @@ body button:hover {
   
     
 }
-
-
-
 
 
 
@@ -236,15 +237,38 @@ body button:hover {
 }
 
 
+.productos-seleccionados h2 {
+  font-size:medium;
+}
 
-/* #totals, #goal-message {
+#selected-items {
   background-color: #eef8fc;
-  border-radius: 5px;
+  border-radius: 10px;
   box-shadow: #1a2023 5px 5px 10px;
-  padding: 10px;
+  padding: 20px;
   margin-bottom: 20px;
-  
-} */
+  max-width: 600px;
+  overflow-y: auto; /* Agrega una barra de desplazamiento vertical si es necesario */
+  height: 100px; /* Fija la altura del área, ajusta según sea necesario */
+}
+
+#selected-items h2 {
+  color: #333;
+}
+
+#selected-list {
+  list-style: none;
+  padding: 0;
+  margin: 0; /* Asegura que no haya márgenes internos */
+}
+
+#selected-list li {
+  margin-bottom: 10px;
+}
+
+
+
+
 
 
 
@@ -294,6 +318,28 @@ button:hover {
 
 /* --------------------TABLA -------------------*/
 
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table, th, td {
+  border: 1px solid #ccc;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+button {
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
 #product-table th {
   background-color: #b9babb;
   color: #333;
@@ -306,6 +352,38 @@ button:hover {
   color: #d7dadc;
   background-color: #f2c25c52;
 }
+
+
+.producto {
+  position: relative;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.producto::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  background-size: contain;
+  border-radius: 5px;
+}
+
+.producto[data-category="verdura"] {
+  background-color: green;
+}
+
+.producto[data-category="almendra"] {
+  background-color: brown;
+}
+thead {
+  position: sticky;
+  top: 0;
+}
+
 /* 
 
 #product-table th, #product-table td {
