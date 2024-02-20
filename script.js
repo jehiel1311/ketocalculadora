@@ -8,25 +8,46 @@ function calcularMacros() {
         const gender = document.getElementById('gender').value;
         const height = parseFloat(document.getElementById('height').value);
         const weight = parseFloat(document.getElementById('weight').value);
-        const activityLevel = parseFloat(document.getElementById('activity-level').value);
-        const goal = document.getElementById('goal').value;
+        const activityLevelSelect = document.getElementById('activity-level');
+        const goalSelect = document.getElementById('goal');
 
         // Realizar cálculos según tus necesidades
         const tmb = 10 * weight + 6.25 * height - 5 * age + 5;
-        const caloriesMin = tmb * activityLevel;
+        const caloriesMin = tmb * parseFloat(activityLevelSelect.value);
         const caloriesMax = caloriesMin * 1.2; // Ajusta según tus preferencias
-        const proteinMin = 1.6 * weight;  // Ajusta según tus preferencias
-        const proteinMax = 2.2 * weight;  // Ajusta según tus preferencias
-        const fatMin = (caloriesMin * 0.7) / 9;
-        const fatMax = (caloriesMax * 0.75) / 9;
+        let proteinMin = 1.6 * weight;  // Ajusta según tus preferencias
+        let proteinMax = 2.2 * weight;  // Ajusta según tus preferencias
+        let fatMin = (caloriesMin * 0.7) / 9;
+        let fatMax = (caloriesMax * 0.75) / 9;
 
         // Rango sugerido para carbohidratos (ajustable según tus preferencias)
         const carbsMin = 20;  // Mínimo recomendado
         const carbsMax = 50;  // Máximo recomendado
 
+        // Ajustar cantidades según el objetivo
+        switch (goalSelect.value) {
+            case 'lose':
+                proteinMin -= 0.2 * weight;
+                proteinMax -= 0.2 * weight;
+                fatMin -= 0.2 * weight;
+                fatMax -= 0.2 * weight;
+                break;
+            case 'gain':
+                proteinMin += 0.2 * weight;
+                proteinMax += 0.2 * weight;
+                fatMin += 0.2 * weight;
+                fatMax += 0.2 * weight;
+                break;
+            // case 'maintain':
+            //   Puedes agregar ajustes específicos para 'maintain' si es necesario
+            //   break;
+            default:
+                break;
+        }
+
         // Determinar la descripción del nivel de actividad
         let activityDescription = "";
-        switch (activityLevel) {
+        switch (parseFloat(activityLevelSelect.value)) {
             case 1.2:
                 activityDescription = "Sedentario (sin ejercicio)";
                 break;
@@ -44,18 +65,6 @@ function calcularMacros() {
                 break;
         }
 
-        // Mostrar los resultados en la sección de resultados
-        const resultadosDiv = document.getElementById('resultados');
-        resultadosDiv.innerHTML = `
-            <h2>Resultados:</h2>
-            <p><strong>Calorías diarias:</strong> ${caloriesMin.toFixed(2)} - ${caloriesMax.toFixed(2)} kcal</p>
-            <p><strong>Proteínas (rango):</strong> ${proteinMin.toFixed(2)} - ${proteinMax.toFixed(2)} g</p>
-            <p><strong>Grasas (rango):</strong> ${fatMin.toFixed(2)} - ${fatMax.toFixed(2)} g</p>
-            <p><strong>Carbohidratos (rango):</strong> ${carbsMin} - ${carbsMax} g</p>
-            <p><strong>Nivel de actividad:</strong> ${activityLevel} - ${activityDescription}</p>
-            <p><strong>Objetivo:</strong> ${goal}</p>
-        `;
-
         // Almacenar resultados en cookies
         document.cookie = `caloriesMin=${caloriesMin}`;
         document.cookie = `caloriesMax=${caloriesMax}`;
@@ -65,8 +74,8 @@ function calcularMacros() {
         document.cookie = `fatMax=${fatMax}`;
         document.cookie = `carbsMin=${carbsMin}`;
         document.cookie = `carbsMax=${carbsMax}`;
-        document.cookie = `activityLevel=${activityLevel}`;
-        document.cookie = `goal=${goal}`;
+        document.cookie = `activityLevel=${activityLevelSelect.value}`;
+        document.cookie = `goal=${goalSelect.value}`;
         document.cookie = `protein=${(proteinMin + proteinMax) / 2}`; // Almacena el promedio de proteínas como valor por defecto
         document.cookie = `carbs=${(carbsMin + carbsMax) / 2}`; // Almacena el promedio de carbohidratos como valor por defecto
 
@@ -79,15 +88,34 @@ function calcularMacros() {
         localStorage.setItem('fatMax', fatMax.toFixed(2));
         localStorage.setItem('carbsMin', carbsMin);
         localStorage.setItem('carbsMax', carbsMax);
-        localStorage.setItem('activityLevel', activityLevel);
-        localStorage.setItem('goal', goal);
+        localStorage.setItem('activityLevel', activityLevelSelect.value);
+        localStorage.setItem('goal', goalSelect.value);
         localStorage.setItem('protein', ((proteinMin + proteinMax) / 2).toFixed(2));
         localStorage.setItem('carbs', ((carbsMin + carbsMax) / 2).toFixed(2));
+
+        // Mostrar los resultados en la sección de resultados
+        const resultadosDiv = document.getElementById('resultados');
+
+        // Función para manejar el valor NaN y asignar 0 en su lugar
+        const handleNaN = (value) => (isNaN(value) ? 0 : value);
+
+        resultadosDiv.innerHTML = `
+            <h2>Resultados:</h2>
+            <p><strong>Calorías diarias:</strong> ${handleNaN(caloriesMin.toFixed(2))} - ${handleNaN(caloriesMax.toFixed(2))} kcal</p>
+            <p><strong>Proteínas (rango):</strong> ${handleNaN(proteinMin.toFixed(2))} - ${handleNaN(proteinMax.toFixed(2))} g</p>
+            <p><strong>Grasas (rango):</strong> ${handleNaN(fatMin.toFixed(2))} - ${handleNaN(fatMax.toFixed(2))} g</p>
+            <p><strong>Carbohidratos (rango):</strong> ${handleNaN(carbsMin)} - ${handleNaN(carbsMax)} g</p>
+            <p><strong>Nivel de actividad:</strong> ${handleNaN(activityLevelSelect.value)} - ${activityDescription}</p>
+            <p><strong>Objetivo:</strong> ${goalSelect.value}</p>
+        `;
 
     } catch (error) {
         console.error("Error al calcular los resultados:", error);
     }
 }
+
+
+
 
 // Redirigir a index.html con los objetivos
 function redirigirAIndex() {
@@ -274,20 +302,43 @@ function resetCalculator() {
     const totalsElement = document.getElementById('totals');
     const selectedList = document.getElementById('selected-list');
 
+    // Restablecer valores de objetivos
     goalProteinsInput.value = 0;
     goalCaloriesInput.value = 0;
     goalCarbsInput.value = 0;
 
-    const currentTotals = getCurrentTotals();
-    const fatPercentage = calculateFatPercentage(currentTotals.fats, currentTotals.calories);
+    // Restablecer mensaje de objetivos
+    const fatPercentage = calculateFatPercentage(0, 0); // Pasar 0 grasas y calorías
     const nonFatPercentage = 100 - fatPercentage;
-
     goalMessageElement.textContent = `Objetivos restantes - Proteínas: 0g, Calorías: 0, Carbohidratos: 0g, Porcentaje de calorías de grasas: 0%, Porcentaje de calorías del resto: ${nonFatPercentage.toFixed(2)}%`;
 
+    // Restablecer totales
     totalsElement.textContent = "Totales: 0g/ml de Cantidad, 0g de Proteínas, 0 Calorías, 0g de Carbohidratos, 0g de Grasas";
 
+    // Limpiar lista de productos seleccionados
     selectedList.innerHTML = "";
+
+    // Limpiar cookies relacionadas con la calculadora
+    const calculatorCookies = ['caloriesMin', 'caloriesMax', 'proteinMin', 'proteinMax', 'fatMin', 'fatMax', 'carbsMin', 'carbsMax', 'activityLevel', 'goal', 'protein', 'carbs'];
+    calculatorCookies.forEach(cookieName => {
+        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;`;
+    });
+
+    // Limpiar datos en localStorage
+    localStorage.removeItem('caloriesMin');
+    localStorage.removeItem('caloriesMax');
+    localStorage.removeItem('proteinMin');
+    localStorage.removeItem('proteinMax');
+    localStorage.removeItem('fatMin');
+    localStorage.removeItem('fatMax');
+    localStorage.removeItem('carbsMin');
+    localStorage.removeItem('carbsMax');
+    localStorage.removeItem('activityLevel');
+    localStorage.removeItem('goal');
+    localStorage.removeItem('protein');
+    localStorage.removeItem('carbs');
 }
+
 
 function searchProduct() {
     const input = document.getElementById('search').value.toLowerCase();
@@ -316,3 +367,17 @@ function getCookie(name) {
 }
 
 
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) {
+        thead.classList.add("fixed");
+      } else {
+        thead.classList.remove("fixed");
+      }
+    });
+  });
+  
+  observer.observe(table);
+  
+
+  
